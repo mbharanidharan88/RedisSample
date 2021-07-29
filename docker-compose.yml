@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  redisdemo.api:
+    image: ${DOCKER_REGISTRY-}redisdemoapi
+    build:
+      context: .
+      dockerfile: RedisDemo.API/Dockerfile
+
+  redis:
+    image: "redis:alpine"
+    # command: redis-server --requirepass Admin_1234
+    ports:
+        - "6379:6379"
+    volumes:
+        - ./redis-data:/var/lib/redis
+        - ./redis.conf:/usr/local/etc/redis/redis.conf
+
+    environment:
+        - REDIS_REPLICATION_MODE=master
